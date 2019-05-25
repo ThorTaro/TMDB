@@ -97,7 +97,6 @@
 				0B91AE9B288905ABC3FEC308 /* Pods-TMDB.debug.xcconfig */,
 				D12D2D94EAB8F4C3F85CFD33 /* Pods-TMDB.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

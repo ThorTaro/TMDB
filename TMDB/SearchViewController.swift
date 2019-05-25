@@ -108,8 +108,8 @@ extension SearchViewController:UICollectionViewDelegateFlowLayout {
         let sideMargin:CGFloat = 12 * 2
         let numberOfItemsAtRow:CGFloat = 3
         let interMargin:CGFloat = 4 * numberOfItemsAtRow
-        let itemHeight:CGFloat = 200 // TODO: We need to research the aspect of posters
         let itemWidth:CGFloat = (self.view.bounds.width - sideMargin - interMargin)/numberOfItemsAtRow
+        let itemHeight:CGFloat = (itemWidth/27) * 40 // Most famous poster aspect is 27 x 40.
         return CGSize(width: itemWidth, height: itemHeight)
     }
     
