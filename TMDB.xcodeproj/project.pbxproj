@@ -16,6 +16,7 @@
 		5061B9712299727C00192DB6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061B9702299727C00192DB6 /* SearchViewController.swift */; };
 		5061B9732299728200192DB6 /* secondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061B9722299728200192DB6 /* secondViewController.swift */; };
 		5061B9752299728600192DB6 /* TMDBAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5061B9742299728600192DB6 /* TMDBAPI.swift */; };
+		50B67EB22299CEBF008617AC /* ExtendedCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B67EB12299CEBF008617AC /* ExtendedCollectionView.swift */; };
 		733897F7E92F96C198300EC5 /* Pods_TMDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29713B7A809907C2BC9EA8BC /* Pods_TMDB.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		5061B9702299727C00192DB6 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		5061B9722299728200192DB6 /* secondViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = secondViewController.swift; sourceTree = "<group>"; };
 		5061B9742299728600192DB6 /* TMDBAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBAPI.swift; sourceTree = "<group>"; };
+		50B67EB12299CEBF008617AC /* ExtendedCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedCollectionView.swift; sourceTree = "<group>"; };
 		D12D2D94EAB8F4C3F85CFD33 /* Pods-TMDB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TMDB.release.xcconfig"; path = "Target Support Files/Pods-TMDB/Pods-TMDB.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +73,7 @@
 			children = (
 				5061B9562299719400192DB6 /* AppDelegate.swift */,
 				5061B9682299724D00192DB6 /* ExtendedNavigationController.swift */,
+				50B67EB12299CEBF008617AC /* ExtendedCollectionView.swift */,
 				5061B9702299727C00192DB6 /* SearchViewController.swift */,
 				5061B96A2299725700192DB6 /* MovieCollectionViewCell.swift */,
 				5061B96E2299726D00192DB6 /* MovieViewModel.swift */,
@@ -233,6 +236,7 @@
 				5061B9732299728200192DB6 /* secondViewController.swift in Sources */,
 				5061B9712299727C00192DB6 /* SearchViewController.swift in Sources */,
 				5061B9692299724D00192DB6 /* ExtendedNavigationController.swift in Sources */,
+				50B67EB22299CEBF008617AC /* ExtendedCollectionView.swift in Sources */,
 				5061B9572299719400192DB6 /* AppDelegate.swift in Sources */,
 				5061B9752299728600192DB6 /* TMDBAPI.swift in Sources */,
 				5061B96B2299725700192DB6 /* MovieCollectionViewCell.swift in Sources */,
