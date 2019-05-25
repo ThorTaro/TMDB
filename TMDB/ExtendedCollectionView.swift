@@ -9,7 +9,7 @@
 import UIKit
 
 // CAUTION
-// If we extend UICollectionView, keyboard doesn't work.
+// If we extend UICollectionView, keyboard doesn't work correctly.
 
 class ExtendedCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
