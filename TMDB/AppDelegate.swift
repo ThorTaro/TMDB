@@ -15,7 +15,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        var viewControllers:[UIViewController] = []
+        
+        
+        let myBaseSearchVC = SearchViewController()
+        myBaseSearchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        let myBaseSearchNavC = ExtendedNavigationController(rootViewController: myBaseSearchVC)
+        myBaseSearchNavC.navigationBar.isTranslucent = false
+        myBaseSearchNavC.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        myBaseSearchNavC.navigationBar.shadowImage = UIImage()
+        myBaseSearchNavC.navigationBar.barTintColor = .black
+        viewControllers.append(myBaseSearchNavC)
+        
+        let secondVC = secondViewController()
+        secondVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
+        let secondNC = UINavigationController(rootViewController: secondVC)
+        secondNC.navigationBar.isTranslucent = false
+        viewControllers.append(secondNC)
+        
+        let tabBarController = UITabBarController()
+        tabBarController.setViewControllers(viewControllers, animated: false)
+        tabBarController.tabBar.tintColor = .orange
+        tabBarController.tabBar.barTintColor = .black
+        tabBarController.tabBar.unselectedItemTintColor = .lightGray
+        tabBarController.tabBar.isTranslucent = false
+        
+        
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        self.window?.rootViewController = tabBarController
+        self.window?.makeKeyAndVisible()
         return true
     }
 
