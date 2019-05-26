@@ -14,6 +14,7 @@ import UIKit
 class ExtendedCollectionView: UICollectionView {
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
+        self.indicatorStyle = .white
     }
     
     required init?(coder aDecoder: NSCoder) {

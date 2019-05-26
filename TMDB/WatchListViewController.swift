@@ -8,11 +8,12 @@
 
 import UIKit
 
-class secondViewController: UIViewController {
+class WatchListViewController: UIViewController {
     private let myTableView:UITableView = {
         let tableView = UITableView()
             tableView.translatesAutoresizingMaskIntoConstraints = false
-            tableView.backgroundColor = .lightGray
+            tableView.backgroundColor = .black
+            tableView.indicatorStyle = .white
         return tableView
     }()
 
@@ -25,12 +26,12 @@ class secondViewController: UIViewController {
     }
     
     private func configureView(){
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .black
         self.view.addSubview(self.myTableView)
     }
     
     private func configureNavBar(){
-        self.title = "Second"
+        self.title = "Watch list"
     }
     
     override func viewDidLayoutSubviews() {
@@ -44,7 +45,7 @@ class secondViewController: UIViewController {
 }
 
 
-extension secondViewController:UITableViewDataSource {
+extension WatchListViewController:UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 20
     }
@@ -52,8 +53,18 @@ extension secondViewController:UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "TableViewCellID")
             cell.textLabel?.text = indexPath.row.description
+            cell.backgroundColor = .clear
+            cell.textLabel?.textColor = .lightGray
         return cell
     }
+}
+
+extension WatchListViewController {
+    override var prefersStatusBarHidden: Bool {
+        return false
+    }
     
-    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
 }

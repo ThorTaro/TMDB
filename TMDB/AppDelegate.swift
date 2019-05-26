@@ -18,27 +18,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var viewControllers:[UIViewController] = []
         
         
-        let myBaseSearchVC = SearchViewController()
-        myBaseSearchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
-        let myBaseSearchNavC = ExtendedNavigationController(rootViewController: myBaseSearchVC)
-        myBaseSearchNavC.navigationBar.isTranslucent = false
-        myBaseSearchNavC.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        myBaseSearchNavC.navigationBar.shadowImage = UIImage()
-        myBaseSearchNavC.navigationBar.barTintColor = .black
-        viewControllers.append(myBaseSearchNavC)
+        let movieSearchVC = SearchViewController()
+            movieSearchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
+        let movieSearchNC = ExtendedNavigationController(rootViewController: movieSearchVC)
+        viewControllers.append(movieSearchNC)
         
-        let secondVC = secondViewController()
-        secondVC.tabBarItem = UITabBarItem(tabBarSystemItem: .favorites, tag: 2)
-        let secondNC = UINavigationController(rootViewController: secondVC)
-        secondNC.navigationBar.isTranslucent = false
-        viewControllers.append(secondNC)
+        let watchListVC = WatchListViewController()
+            watchListVC.tabBarItem = UITabBarItem(title: "Watch list", image: UIImage(named: "uncheck"), tag: 2)
+        let watchListNC = ExtendedNavigationController(rootViewController: watchListVC)
+        viewControllers.append(watchListNC)
         
         let tabBarController = UITabBarController()
-        tabBarController.setViewControllers(viewControllers, animated: false)
-        tabBarController.tabBar.tintColor = .orange
-        tabBarController.tabBar.barTintColor = .black
-        tabBarController.tabBar.unselectedItemTintColor = .lightGray
-        tabBarController.tabBar.isTranslucent = false
+            tabBarController.setViewControllers(viewControllers, animated: false)
+            tabBarController.tabBar.tintColor = .orange
+            tabBarController.tabBar.barTintColor = .black
+            tabBarController.tabBar.unselectedItemTintColor = .lightGray
+            tabBarController.tabBar.isTranslucent = false
         
         
         self.window = UIWindow(frame: UIScreen.main.bounds)

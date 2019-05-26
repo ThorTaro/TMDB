@@ -11,6 +11,11 @@ import UIKit
 class ExtendedNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationBar.isTranslucent = false
+        self.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        self.navigationBar.shadowImage = UIImage()
+        self.navigationBar.barTintColor = .black
+        self.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.lightGray]
     }
 }
 
