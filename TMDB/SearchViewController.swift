@@ -24,8 +24,9 @@ class SearchViewController: UIViewController {
         return sb
     }()
     
-    private let movieCollectionView:UICollectionView = {
-        let collectionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+    private let movieCollectionView:ExtendedCollectionView = {
+        let collectionView = ExtendedCollectionView(frame: CGRect.zero,
+                                                    collectionViewLayout: UICollectionViewFlowLayout())
             collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "CellID")
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             collectionView.backgroundColor = .black
@@ -140,11 +141,5 @@ extension SearchViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.searchBar.showsCancelButton = false
         self.searchBar.resignFirstResponder()
-    }
-}
-
-extension UICollectionView {
-    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        superview?.touchesBegan(touches, with: event)
     }
 }

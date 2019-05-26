@@ -17,10 +17,22 @@ class MovieCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let heartButton:UIButton = {
+        let button = UIButton()
+            button.backgroundColor = .clear
+            button.setImage(UIImage(named: "uncheck"), for: .normal)
+        return button
+    }()
+    
+    private var isTapped:Bool = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.posterImageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         self.contentView.addSubview(self.posterImageView)
+        self.heartButton.frame = CGRect(x: self.frame.width * 0.75, y: 0, width: self.frame.width * 0.25, height: self.frame.height * 0.25)
+        self.contentView.addSubview(self.heartButton)
+        self.heartButton.addTarget(self, action: #selector(didTapeed), for: .touchUpInside)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,9 +40,31 @@ class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     public func setPosterImage(posterURL: String?){
-        let posterURLPath = posterURL ?? "NoUrl"
-        let urlToUse = URL(string: "https://image.tmdb.org/t/p/w200" + posterURLPath)!
+        guard let posterURLPath = posterURL else {
+            self.posterImageView.image = UIImage(named: "coffee")
+            return
+        }
+        let imageURL = URL(string: "https://image.tmdb.org/t/p/w200" + posterURLPath)!
         let options = ImageLoadingOptions(placeholder: UIImage(named: "coffee"), failureImage: UIImage(named: "coffee"))
-        Nuke.loadImage(with: urlToUse, options: options, into: self.posterImageView)
+        Nuke.loadImage(with: imageURL, options: options, into: self.posterImageView)
+    }
+    
+    @objc func didTapeed(sender:UIButton){
+        if self.isTapped {
+            self.heartButton.setImage(UIImage(named: "check"), for: .normal)
+            self.isTapped = false
+        }else {
+            self.heartButton.setImage(UIImage(named: "uncheck"), for: .normal)
+            self.isTapped = true
+        }
+        
+    }
+    
+    override func prepareForReuse() { // Does anyone know the better idea about reusing cell?
+        super.prepareForReuse()
+        self.isTapped = false
+        self.heartButton.setImage(UIImage(named: "uncheck"), for: .normal)
     }
 }
+
+
