@@ -28,9 +28,12 @@ class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     public func setPosterImage(posterURL: String?){
-        let posterURLPath = posterURL ?? "NoUrl"
-        let urlToUse = URL(string: "https://image.tmdb.org/t/p/w200" + posterURLPath)!
+        guard let posterURLPath = posterURL else {
+            self.posterImageView.image = UIImage(named: "coffee")
+            return
+        }
+        let imageURL = URL(string: "https://image.tmdb.org/t/p/w200" + posterURLPath)!
         let options = ImageLoadingOptions(placeholder: UIImage(named: "coffee"), failureImage: UIImage(named: "coffee"))
-        Nuke.loadImage(with: urlToUse, options: options, into: self.posterImageView)
+        Nuke.loadImage(with: imageURL, options: options, into: self.posterImageView)
     }
 }
