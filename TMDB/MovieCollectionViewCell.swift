@@ -20,7 +20,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     private let heartButton:UIButton = {
         let button = UIButton()
             button.backgroundColor = .clear
-            button.setImage(UIImage(named: "uncheck"), for: .normal)
+            button.setImage(UIImage(named: "notWatched"), for: .normal)
         return button
     }()
     
@@ -51,10 +51,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     @objc func didTapeed(sender:UIButton){
         if self.isTapped {
-            self.heartButton.setImage(UIImage(named: "check"), for: .normal)
+            self.heartButton.setImage(UIImage(named: "watched"), for: .normal)
             self.isTapped = false
         }else {
-            self.heartButton.setImage(UIImage(named: "uncheck"), for: .normal)
+            self.heartButton.setImage(UIImage(named: "notWatched"), for: .normal)
             self.isTapped = true
         }
         
@@ -63,7 +63,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() { // Does anyone know the better idea about reusing cell?
         super.prepareForReuse()
         self.isTapped = false
-        self.heartButton.setImage(UIImage(named: "uncheck"), for: .normal)
+        self.heartButton.setImage(UIImage(named: "notWatched"), for: .normal)
     }
 }
 

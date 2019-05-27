@@ -95,6 +95,7 @@ extension SearchViewController: UISearchBarDelegate{
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // DISCUSSION: I think that I can replace here with RxSwift, but I don't know how to do it.
         guard let searchText = self.searchBar.text else {
             return
         }
