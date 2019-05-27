@@ -21,7 +21,7 @@ class MovieViewModel {
             switch result {
             case .success(let response):
                 do{
-                    let json = try JSONDecoder().decode(MovieJSON.self, from: response.data).results
+                    let json = try JSONDecoder().decode(MovieSearchResult.self, from: response.data).results
                     weakSelf.movies.accept(json)
                 } catch {
                     weakSelf.movies.accept([]) // I DON'T KNOW WHTA SHOULD I DO

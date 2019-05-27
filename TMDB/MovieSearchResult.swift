@@ -8,12 +8,15 @@
 
 import Foundation
 
-struct MovieJSON:Codable {
+struct MovieSearchResult:Codable {
     let results:[MovieData]
 }
 
 struct MovieData:Codable {
+    let id:Int
     let title:String
     let poster_path:String? // WARNING Not all data has "poster_path". It maybe null.
 }
+
+
 
