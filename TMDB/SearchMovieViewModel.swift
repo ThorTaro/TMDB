@@ -10,10 +10,10 @@ import Moya
 import RxSwift
 import RxCocoa
 
-class MovieViewModel {
+class SearchMovieViewModel {
     private let movieProvider = MoyaProvider<TMDBAPI>()
 
-    public let movies = BehaviorRelay<[MovieData]>(value: [])
+    public let searchResultMovies = BehaviorRelay<[MovieData]>(value: [])
     
     public func searchMovie(word: String){
         self.movieProvider.request(.search(word: word)){ [weak self]result in
@@ -22,12 +22,12 @@ class MovieViewModel {
             case .success(let response):
                 do{
                     let json = try JSONDecoder().decode(MovieSearchResult.self, from: response.data).results
-                    weakSelf.movies.accept(json)
+                    weakSelf.searchResultMovies.accept(json)
                 } catch {
-                    weakSelf.movies.accept([]) // I DON'T KNOW WHTA SHOULD I DO
+                    weakSelf.searchResultMovies.accept([]) // I DON'T KNOW WHTA SHOULD I DO
                 }
             case .failure(_):
-                weakSelf.movies.accept([]) // I DON'T KNOW WHTA SHOULD I DO
+                weakSelf.searchResultMovies.accept([]) // I DON'T KNOW WHTA SHOULD I DO
             }
         }
     }

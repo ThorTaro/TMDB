@@ -33,7 +33,7 @@ class SearchViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel = MovieViewModel()
+    private let viewModel = SearchMovieViewModel()
     private let disposeBag = DisposeBag()
     
     
@@ -41,11 +41,14 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         self.setViews()
         
-        self.viewModel.movies
+        self.viewModel.searchResultMovies
             .asDriver()
             .drive( movieCollectionView.rx.items(cellIdentifier: "CellID", cellType: MovieCollectionViewCell.self)){
                 (_, element, cell) in
                 cell.setPosterImage(posterURL: element.poster_path)
+                cell.watchedButton.rx.tap.asDriver().drive(onNext: { _ in
+                    cell.didTapeed()
+                }).disposed(by: cell.disposeBag)
             }
             .disposed(by: self.disposeBag)
     }
@@ -126,7 +129,6 @@ extension SearchViewController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
-
 }
 
 
