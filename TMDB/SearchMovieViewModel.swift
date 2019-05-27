@@ -10,10 +10,16 @@ import Moya
 import RxSwift
 import RxCocoa
 
-class SearchMovieViewModel {
+final class SearchMovieViewModel {
+    private init(){}  // Singleton
+    static let shared = SearchMovieViewModel()
+    
+    
     private let movieProvider = MoyaProvider<TMDBAPI>()
 
     public let searchResultMovies = BehaviorRelay<[MovieData]>(value: [])
+    
+    public let watchedMovieList = BehaviorRelay<[Int]>(value: [])
     
     public func searchMovie(word: String){
         self.movieProvider.request(.search(word: word)){ [weak self]result in

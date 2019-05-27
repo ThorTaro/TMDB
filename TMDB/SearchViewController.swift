@@ -33,7 +33,6 @@ class SearchViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel = SearchMovieViewModel()
     private let disposeBag = DisposeBag()
     
     
@@ -41,13 +40,16 @@ class SearchViewController: UIViewController {
         super.viewDidLoad()
         self.setViews()
         
-        self.viewModel.searchResultMovies
+        SearchMovieViewModel.shared.searchResultMovies
             .asDriver()
             .drive( movieCollectionView.rx.items(cellIdentifier: "CellID", cellType: MovieCollectionViewCell.self)){
                 (_, element, cell) in
                 cell.setPosterImage(posterURL: element.poster_path)
                 cell.watchedButton.rx.tap.asDriver().drive(onNext: { _ in
                     cell.didTapeed()
+                    var copyWatchedMovieList:[Int] = SearchMovieViewModel.shared.watchedMovieList.value
+                    copyWatchedMovieList.append(element.id)
+                    SearchMovieViewModel.shared.watchedMovieList.accept(copyWatchedMovieList)
                 }).disposed(by: cell.disposeBag)
             }
             .disposed(by: self.disposeBag)
@@ -102,7 +104,7 @@ extension SearchViewController: UISearchBarDelegate{
         guard let searchText = self.searchBar.text else {
             return
         }
-        self.viewModel.searchMovie(word: searchText)
+        SearchMovieViewModel.shared.searchMovie(word: searchText)
         self.searchBar.showsCancelButton = false
         self.searchBar.resignFirstResponder()
     }

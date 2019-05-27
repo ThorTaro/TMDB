@@ -7,22 +7,34 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class WatchListViewController: UIViewController {
     private let watchListCollectionView: ExtendedCollectionView = {
         let collectionView = ExtendedCollectionView(frame: CGRect.zero,
                                                     collectionViewLayout: UICollectionViewFlowLayout())
-            collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "CellID")
+            collectionView.register(WatchedMovieCollectionViewCell.self, forCellWithReuseIdentifier: "CellID")
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             collectionView.backgroundColor = .black
         return collectionView
     }()
+    
+    private let disposeBag = DisposeBag()
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
         self.configureNavBar()
+        
+        SearchMovieViewModel.shared.watchedMovieList
+            .asDriver()
+            .drive( self.watchListCollectionView.rx.items(cellIdentifier: "CellID", cellType: WatchedMovieCollectionViewCell.self)){
+                (_, element, cell) in
+                cell.testIDLabel.text = String(element)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func configureView(){
