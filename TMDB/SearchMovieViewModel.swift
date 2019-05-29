@@ -10,19 +10,14 @@ import Moya
 import RxSwift
 import RxCocoa
 
-final class SearchMovieViewModel {
-    private init(){}  // Singleton
-    static let shared = SearchMovieViewModel()
-    
-    
+class SearchMovieViewModel {
     private let movieProvider = MoyaProvider<TMDBAPI>()
 
     public let searchResultMovies = BehaviorRelay<[MovieData]>(value: [])
     
-    public let watchedMovieList = BehaviorRelay<[Int]>(value: [])
     
     public func searchMovie(word: String){
-        self.movieProvider.request(.search(word: word)){ [weak self]result in
+        self.movieProvider.request(.search(word: word)){ [weak self] result in
             guard let weakSelf = self else { return }
             switch result {
             case .success(let response):
@@ -38,4 +33,7 @@ final class SearchMovieViewModel {
         }
     }
     
+    public func addWatchedList(movieID: Int){
+        WatchedMovieModel.shared.addWatchedMovie(movieID: movieID)
+    }
 }

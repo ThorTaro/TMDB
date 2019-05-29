@@ -20,6 +20,8 @@ class WatchListViewController: UIViewController {
         return collectionView
     }()
     
+    
+    private let watchListViewModel = WatchListViewModel()
     private let disposeBag = DisposeBag()
     
 
@@ -28,11 +30,11 @@ class WatchListViewController: UIViewController {
         self.configureView()
         self.configureNavBar()
         
-        SearchMovieViewModel.shared.watchedMovieList
+        self.watchListViewModel.watchMovie
             .asDriver()
-            .drive( self.watchListCollectionView.rx.items(cellIdentifier: "CellID", cellType: WatchedMovieCollectionViewCell.self)){
-                (_, element, cell) in
-                cell.testIDLabel.text = String(element)
+            .drive(self.watchListCollectionView.rx.items(cellIdentifier: "CellID", cellType: WatchedMovieCollectionViewCell.self)){
+                (_, element, cell) -> Void in
+                cell.setPosterImage(posterURL: element.poster_path)
             }
             .disposed(by: self.disposeBag)
     }
