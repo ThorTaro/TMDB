@@ -23,4 +23,14 @@ final class WatchedMovieModel {
     public func addWatchedMovie(movieID: Int){
         self.observable.accept([movieID])
     }
+    
+    public func getIsWatched(movieID:Int) -> Bool {
+        var isWatched:Bool = false
+        for i in self.watchedMovieList.value {
+            if i == movieID {
+                isWatched = true
+            }
+        }
+        return isWatched
+    }
 }

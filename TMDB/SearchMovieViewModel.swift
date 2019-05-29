@@ -36,4 +36,8 @@ class SearchMovieViewModel {
     public func addWatchedList(movieID: Int){
         WatchedMovieModel.shared.addWatchedMovie(movieID: movieID)
     }
+    
+    public func getMovieStatus(movieID: Int) -> Bool{
+        return WatchedMovieModel.shared.getIsWatched(movieID: movieID)
+    }
 }

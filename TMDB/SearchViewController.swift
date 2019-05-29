@@ -46,8 +46,12 @@ class SearchViewController: UIViewController {
         self.searchMovieViewModel.searchResultMovies
             .asDriver()
             .drive( movieCollectionView.rx.items(cellIdentifier: "CellID", cellType: MovieCollectionViewCell.self)){
-                (_, element, cell) in
+                [weak self](_, element, cell) in
+                guard let weakself = self else {
+                    return
+                }
                 cell.setPosterImage(posterURL: element.poster_path)
+                cell.initButtonState(watch: weakself.searchMovieViewModel.getMovieStatus(movieID: element.id))
                 cell.watchedButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
                     cell.didTapeed()
                     guard let weakself = self else { return }

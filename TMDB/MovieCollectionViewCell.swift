@@ -64,10 +64,18 @@ class MovieCollectionViewCell: UICollectionViewCell {
         
     }
     
+    public func initButtonState(watch:Bool){
+        if watch {
+            self.watchedButton.setImage(UIImage(named: "watched"), for: .normal)
+            self.isWatched = true
+        }else {
+            self.watchedButton.setImage(UIImage(named: "unWatched"), for: .normal)
+            self.isWatched = false
+        }
+    }
+    
     override func prepareForReuse() { // Does anyone know the better idea about reusing cell?
         super.prepareForReuse()
-        self.isWatched = false
-        self.watchedButton.setImage(UIImage(named: "notWatched"), for: .normal)
         self.disposeBag = DisposeBag()
     }
 }
