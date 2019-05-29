@@ -17,6 +17,3 @@ struct MovieData:Codable {
     let title:String
     let poster_path:String? // WARNING Not all data has "poster_path". It maybe null.
 }
-
-
-
