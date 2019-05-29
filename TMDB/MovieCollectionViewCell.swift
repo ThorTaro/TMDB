@@ -8,6 +8,8 @@
 
 import UIKit
 import Nuke
+import RxSwift
+import RxCocoa
 
 class MovieCollectionViewCell: UICollectionViewCell {
     private let posterImageView:UIImageView = {
@@ -17,22 +19,24 @@ class MovieCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let heartButton:UIButton = {
+    public let watchedButton:UIButton = {
         let button = UIButton()
             button.backgroundColor = .clear
-            button.setImage(UIImage(named: "uncheck"), for: .normal)
+            button.setImage(UIImage(named: "notWatched"), for: .normal)
         return button
     }()
     
-    private var isTapped:Bool = false
+    public var isWatched:Bool = false
+    
+    public var disposeBag = DisposeBag()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.posterImageView.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         self.contentView.addSubview(self.posterImageView)
-        self.heartButton.frame = CGRect(x: self.frame.width * 0.75, y: 0, width: self.frame.width * 0.25, height: self.frame.height * 0.25)
-        self.contentView.addSubview(self.heartButton)
-        self.heartButton.addTarget(self, action: #selector(didTapeed), for: .touchUpInside)
+        
+        self.watchedButton.frame = CGRect(x: self.frame.width * 0.75, y: 0, width: self.frame.width * 0.25, height: self.frame.height * 0.25)
+        self.contentView.addSubview(self.watchedButton)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -49,21 +53,22 @@ class MovieCollectionViewCell: UICollectionViewCell {
         Nuke.loadImage(with: imageURL, options: options, into: self.posterImageView)
     }
     
-    @objc func didTapeed(sender:UIButton){
-        if self.isTapped {
-            self.heartButton.setImage(UIImage(named: "check"), for: .normal)
-            self.isTapped = false
+    public func didTapeed(){
+        if self.isWatched {
+            self.watchedButton.setImage(UIImage(named: "notWatched"), for: .normal)
+            self.isWatched = false
         }else {
-            self.heartButton.setImage(UIImage(named: "uncheck"), for: .normal)
-            self.isTapped = true
+            self.watchedButton.setImage(UIImage(named: "watched"), for: .normal)
+            self.isWatched = true
         }
         
     }
     
     override func prepareForReuse() { // Does anyone know the better idea about reusing cell?
         super.prepareForReuse()
-        self.isTapped = false
-        self.heartButton.setImage(UIImage(named: "uncheck"), for: .normal)
+        self.isWatched = false
+        self.watchedButton.setImage(UIImage(named: "notWatched"), for: .normal)
+        self.disposeBag = DisposeBag()
     }
 }
 

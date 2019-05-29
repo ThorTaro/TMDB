@@ -33,19 +33,26 @@ class SearchViewController: UIViewController {
         return collectionView
     }()
     
-    private let viewModel = MovieViewModel()
+    private let searchMovieViewModel = SearchMovieViewModel()
     private let disposeBag = DisposeBag()
+    
+    private let watchListViewModel = WatchListViewModel()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setViews()
         
-        self.viewModel.movies
+        self.searchMovieViewModel.searchResultMovies
             .asDriver()
             .drive( movieCollectionView.rx.items(cellIdentifier: "CellID", cellType: MovieCollectionViewCell.self)){
                 (_, element, cell) in
                 cell.setPosterImage(posterURL: element.poster_path)
+                cell.watchedButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
+                    cell.didTapeed()
+                    guard let weakself = self else { return }
+                    weakself.searchMovieViewModel.addWatchedList(movieID: element.id)
+                }).disposed(by: cell.disposeBag)
             }
             .disposed(by: self.disposeBag)
     }
@@ -95,10 +102,11 @@ extension SearchViewController: UISearchBarDelegate{
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // DISCUSSION: I think that I can replace here with RxSwift, but I don't know how to do it.
         guard let searchText = self.searchBar.text else {
             return
         }
-        self.viewModel.searchMovie(word: searchText)
+        self.searchMovieViewModel.searchMovie(word: searchText)
         self.searchBar.showsCancelButton = false
         self.searchBar.resignFirstResponder()
     }
@@ -125,7 +133,6 @@ extension SearchViewController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
-
 }
 
 

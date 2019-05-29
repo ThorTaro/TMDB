@@ -7,27 +7,42 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class WatchListViewController: UIViewController {
-    private let myTableView:UITableView = {
-        let tableView = UITableView()
-            tableView.translatesAutoresizingMaskIntoConstraints = false
-            tableView.backgroundColor = .black
-            tableView.indicatorStyle = .white
-        return tableView
+    private let watchListCollectionView: ExtendedCollectionView = {
+        let collectionView = ExtendedCollectionView(frame: CGRect.zero,
+                                                    collectionViewLayout: UICollectionViewFlowLayout())
+            collectionView.register(WatchedMovieCollectionViewCell.self, forCellWithReuseIdentifier: "CellID")
+            collectionView.translatesAutoresizingMaskIntoConstraints = false
+            collectionView.backgroundColor = .black
+        return collectionView
     }()
+    
+    
+    private let watchListViewModel = WatchListViewModel()
+    private let disposeBag = DisposeBag()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
         self.configureNavBar()
         
-        self.myTableView.dataSource = self
+        self.watchListViewModel.watchMovie
+            .asDriver()
+            .drive(self.watchListCollectionView.rx.items(cellIdentifier: "CellID", cellType: WatchedMovieCollectionViewCell.self)){
+                (_, element, cell) -> Void in
+                cell.setPosterImage(posterURL: element.poster_path)
+            }
+            .disposed(by: self.disposeBag)
     }
     
     private func configureView(){
         self.view.backgroundColor = .black
-        self.view.addSubview(self.myTableView)
+        self.view.addSubview(self.watchListCollectionView)
+        self.watchListCollectionView.delegate = self
     }
     
     private func configureNavBar(){
@@ -36,26 +51,37 @@ class WatchListViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        self.myTableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        self.myTableView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-        self.myTableView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
-        self.myTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        self.configureViewsConstraints()
+    }
+    
+    private func configureViewsConstraints(){
+        self.watchListCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 12).isActive = true
+        self.watchListCollectionView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+        self.watchListCollectionView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+        self.watchListCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
 }
 
-
-extension WatchListViewController:UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+extension WatchListViewController:UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let sideMargin:CGFloat = 12 * 2
+        let numberOfItemsAtRow:CGFloat = 3
+        let interMargin:CGFloat = 4 * numberOfItemsAtRow
+        let itemWidth:CGFloat = (self.view.bounds.width - sideMargin - interMargin)/numberOfItemsAtRow
+        let itemHeight:CGFloat = (itemWidth/27) * 40 // Most famous poster aspect is 27 x 40.
+        return CGSize(width: itemWidth, height: itemHeight)
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "TableViewCellID")
-            cell.textLabel?.text = indexPath.row.description
-            cell.backgroundColor = .clear
-            cell.textLabel?.textColor = .lightGray
-        return cell
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 4
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 8, left: 12, bottom: 8, right: 12)
     }
 }
 
