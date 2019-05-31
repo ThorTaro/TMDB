@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class SearchViewController: UIViewController {
+class SearchMovieViewController: UIViewController {
     private let searchBar:UISearchBar = {
         let sb = UISearchBar(frame: CGRect.zero)
             sb.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +27,7 @@ class SearchViewController: UIViewController {
     private let movieCollectionView:ExtendedCollectionView = {
         let collectionView = ExtendedCollectionView(frame: CGRect.zero,
                                                     collectionViewLayout: UICollectionViewFlowLayout())
-            collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "CellID")
+            collectionView.register(SearchResultCollectionViewCell.self, forCellWithReuseIdentifier: "CellID")
             collectionView.translatesAutoresizingMaskIntoConstraints = false
             collectionView.backgroundColor = .black
         return collectionView
@@ -36,8 +36,6 @@ class SearchViewController: UIViewController {
     private let searchMovieViewModel = SearchMovieViewModel()
     private let disposeBag = DisposeBag()
     
-    private let watchListViewModel = WatchListViewModel()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,19 +43,9 @@ class SearchViewController: UIViewController {
         
         self.searchMovieViewModel.searchResultMovies
             .asDriver()
-            .drive( movieCollectionView.rx.items(cellIdentifier: "CellID", cellType: MovieCollectionViewCell.self)){
-                [weak self] (_, element, cell) in
-                guard let weakself = self else {
-                    return
-                }
+            .drive( movieCollectionView.rx.items(cellIdentifier: "CellID", cellType: SearchResultCollectionViewCell.self)){
+                (_, element, cell) in
                 cell.setPosterImage(posterURL: element.poster_path)
-                // MARK: ここで死んでる
-                cell.initButtonState(watch: weakself.searchMovieViewModel.getMovieStatus(movieID: element.id))
-                cell.watchedButton.rx.tap.asDriver().drive(onNext: { [weak self] _ in
-                    cell.didTapeed()
-                    guard let weakself = self else { return }
-                    weakself.searchMovieViewModel.addWatchedList(movieID: element.id)
-                }).disposed(by: cell.disposeBag)
             }
             .disposed(by: self.disposeBag)
     }
@@ -94,7 +82,7 @@ class SearchViewController: UIViewController {
     
 }
 
-extension SearchViewController: UISearchBarDelegate{
+extension SearchMovieViewController: UISearchBarDelegate{
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         self.searchBar.showsCancelButton = true
         return true
@@ -117,7 +105,7 @@ extension SearchViewController: UISearchBarDelegate{
     }
 }
 
-extension SearchViewController:UICollectionViewDelegateFlowLayout {
+extension SearchMovieViewController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let sideMargin:CGFloat = 12 * 2
         let numberOfItemsAtRow:CGFloat = 3
@@ -141,7 +129,7 @@ extension SearchViewController:UICollectionViewDelegateFlowLayout {
 }
 
 
-extension SearchViewController {
+extension SearchMovieViewController {
     override var prefersStatusBarHidden: Bool {
         return false
     }

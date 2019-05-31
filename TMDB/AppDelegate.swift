@@ -18,12 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var viewControllers:[UIViewController] = []
         
         
-        let movieSearchVC = SearchViewController()
+        let movieSearchVC = SearchMovieViewController()
             movieSearchVC.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 1)
         let movieSearchNC = ExtendedNavigationController(rootViewController: movieSearchVC)
         viewControllers.append(movieSearchNC)
         
-        let watchListVC = WatchListViewController()
+        let watchListVC = WatchedMovieViewController()
             watchListVC.tabBarItem = UITabBarItem(title: "Watch list", image: UIImage(named: "uncheck"), tag: 2)
         let watchListNC = ExtendedNavigationController(rootViewController: watchListVC)
         viewControllers.append(watchListNC)

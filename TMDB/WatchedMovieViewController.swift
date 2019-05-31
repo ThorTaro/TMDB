@@ -10,7 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class WatchListViewController: UIViewController {
+class WatchedMovieViewController: UIViewController {
     private let watchListCollectionView: ExtendedCollectionView = {
         let collectionView = ExtendedCollectionView(frame: CGRect.zero,
                                                     collectionViewLayout: UICollectionViewFlowLayout())
@@ -20,23 +20,10 @@ class WatchListViewController: UIViewController {
         return collectionView
     }()
     
-    
-    private let watchListViewModel = WatchListViewModel()
-    private let disposeBag = DisposeBag()
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
         self.configureNavBar()
-        
-        self.watchListViewModel.watchMovie
-            .asDriver()
-            .drive(self.watchListCollectionView.rx.items(cellIdentifier: "CellID", cellType: WatchedMovieCollectionViewCell.self)){
-                (_, element, cell) -> Void in
-                cell.setPosterImage(posterURL: element.poster_path)
-            }
-            .disposed(by: self.disposeBag)
     }
     
     private func configureView(){
@@ -62,7 +49,7 @@ class WatchListViewController: UIViewController {
     }
 }
 
-extension WatchListViewController:UICollectionViewDelegateFlowLayout {
+extension WatchedMovieViewController:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let sideMargin:CGFloat = 12 * 2
         let numberOfItemsAtRow:CGFloat = 3
@@ -85,7 +72,7 @@ extension WatchListViewController:UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension WatchListViewController {
+extension WatchedMovieViewController {
     override var prefersStatusBarHidden: Bool {
         return false
     }

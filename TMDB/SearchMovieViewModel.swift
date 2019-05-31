@@ -13,7 +13,7 @@ import RxCocoa
 class SearchMovieViewModel {
     private let movieProvider = MoyaProvider<TMDBAPI>()
 
-    public let searchResultMovies = BehaviorRelay<[MovieData]>(value: [])
+    public let searchResultMovies = BehaviorRelay<[MovieDataJSON]>(value: [])
     
     
     public func searchMovie(word: String){
@@ -22,7 +22,7 @@ class SearchMovieViewModel {
             switch result {
             case .success(let response):
                 do{
-                    let json = try JSONDecoder().decode(MovieSearchResult.self, from: response.data).results
+                    let json = try JSONDecoder().decode(SearchResultJSON.self, from: response.data).results
                     weakSelf.searchResultMovies.accept(json)
                 } catch {
                     weakSelf.searchResultMovies.accept([]) // I DON'T KNOW WHTA SHOULD I DO
@@ -31,13 +31,5 @@ class SearchMovieViewModel {
                 weakSelf.searchResultMovies.accept([]) // I DON'T KNOW WHTA SHOULD I DO
             }
         }
-    }
-    
-    public func addWatchedList(movieID: Int){
-        WatchedMovieModel.shared.addWatchedMovie(movieID: movieID)
-    }
-    
-    public func getMovieStatus(movieID: Int) -> Bool{
-        return WatchedMovieModel.shared.getIsWatched(movieID: movieID)
     }
 }
